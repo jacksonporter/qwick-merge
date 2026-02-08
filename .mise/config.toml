@@ -28,20 +28,22 @@ actionlint = "latest"
 prek = "latest"
 "pipx:checkov" = "latest"
 
-[tasks.bun-install]
-description = "Install Bun dependencies"
-run = "bun install"
-
 [tasks.go-mod-download]
 description = "Download Go module dependencies"
 run = "go mod download"
 
 [tasks.go-mod-tidy]
 description = "Tidy Go module dependencies"
+depends = ["go-mod-download"]
 run = "go mod tidy"
 
+[tasks.bun-install]
+description = "Install Bun dependencies"
+depends = ["go-mod-tidy"]
+run = "bun install"
+
 [tasks.install]
-depends = ["bun-install", "go-mod-download", "go-mod-tidy"]
+depends = ["bun-install"]
 
 [tasks.shellcheck]
 description = "Run Shellcheck"

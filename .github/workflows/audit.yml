@@ -43,11 +43,10 @@ jobs:
           - windows
           - linux
           - macos
-        include:
+        exclude:
           - arch: arm64
             os: windows
-            runner_labels:
-              - windows-11-arm
+        include:
           - arch: amd64
             os: windows
             runner_labels:
@@ -59,7 +58,7 @@ jobs:
           - arch: amd64
             os: linux
             runner_labels:
-              - ubuntu-24.04-amd64
+              - ubuntu-24.04
           - arch: arm64
             os: macos
             runner_labels:
