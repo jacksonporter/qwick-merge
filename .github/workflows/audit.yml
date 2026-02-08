@@ -31,3 +31,47 @@ jobs:
       - uses: ./.github/actions/setup-project
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
+
+  build:
+    strategy:
+      matrix:
+        arch:
+          - amd64
+          - arm64
+        os:
+          - windows
+          - linux
+          - macos
+        include:
+          - arch: arm64
+            os: windows
+            runner_labels:
+              - windows-11-arm
+          - arch: amd64
+            os: windows
+            runner_labels:
+              - windows-2025
+          - arch: arm64
+            os: linux
+            runner_labels:
+              - ubuntu-24.04-arm
+          - arch: amd64
+            os: linux
+            runner_labels:
+              - ubuntu-24.04-amd64
+          - arch: arm64
+            os: macos
+            runner_labels:
+              - macos-26
+          - arch: amd64
+            os: macos
+            runner_labels:
+              - macos-15-intel
+    runs-on: ${{ matrix.runner_labels }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-project
+      - name: Build
+        run: |
+          mise run build

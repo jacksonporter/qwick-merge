@@ -18,6 +18,12 @@ runs:
         key: ${{ runner.os }}-${{ runner.arch }}-bun-${{ hashFiles('bun.lockb', 'package.json') }}
         restore-keys: |
           ${{ runner.os }}-bun-
+    - name: Install Fyne build dependencies
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgl1-mesa-dev xorg-dev pkg-config
     - name: Install dependencies
       shell: bash
       run: mise run install
