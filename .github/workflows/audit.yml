@@ -1,0 +1,33 @@
+name: Audit Code
+
+run-name: Audit Code
+
+on:
+  push:
+    branches:
+      - "**"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-project
+      - name: Audit code
+        env:
+          SKIP: "golangci-lint,no-commit-to-branch"
+        run: |
+          mise run audit
+
+  golangci-lint:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-project
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v9

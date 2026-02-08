@@ -1,0 +1,100 @@
+[settings]
+windows_default_file_shell_args = "powershell.exe -Command"
+windows_default_inline_shell_args = "powershell.exe -Command"
+unix_default_file_shell_args = "pwsh"
+unix_default_inline_shell_args = "pwsh -Command"
+
+[settings.pipx]
+uvx = true
+
+[settings.npm]
+package_manager = "bun"
+
+[tools]
+powershell = "7"
+python = "3.14"
+uv = "latest"
+bun = "latest"
+go = "1.25"
+goreleaser = "latest"
+"go:github.com/golangci/golangci-lint/v2/cmd/golangci-lint" = "latest"
+"go:github.com/daixiang0/gci" = "latest"
+"github:koalaman/shellcheck" = { version = "latest", os = ["linux", "macos"] }
+"go:golang.org/x/tools/gopls" = "latest"
+"go:mvdan.cc/gofumpt" = "latest"
+"go:gotest.tools/gotestsum" = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+actionlint = "latest"
+prek = "latest"
+"pipx:checkov" = "latest"
+
+[tasks.bun-install]
+description = "Install Bun dependencies"
+run = "bun install"
+
+[tasks.go-mod-download]
+description = "Download Go module dependencies"
+run = "go mod download"
+
+[tasks.go-mod-tidy]
+description = "Tidy Go module dependencies"
+run = "go mod tidy"
+
+[tasks.install]
+depends = ["bun-install", "go-mod-download", "go-mod-tidy"]
+
+[tasks.shellcheck]
+description = "Run Shellcheck"
+run = "shellcheck"
+
+[tasks.actionlint]
+description = "Run Actionlint"
+run = "actionlint"
+
+[tasks.markdownlint-fix-all]
+description = "Run Markdownlint"
+run = "bunx markdownlint-cli2 --fix ."
+
+[tasks.checkov]
+description = "Run Checkov"
+run = "checkov"
+
+[tasks.go-fmt-all]
+description = "Run Go fmt"
+run = "gofumpt -w ."
+
+[tasks.prettier-write-all]
+description = "Run Prettier to write all files"
+run = "bunx prettier --write ."
+
+[tasks.format]
+alias = ["fmt"]
+depends = ["go-fmt-all", "prettier-write-all"]
+
+[tasks.lint]
+alias = ["audit"]
+run = "prek run -a"
+
+[tasks.golangci-lint]
+description = "Run Golangci-lint"
+run = "golangci-lint run"
+
+[tasks.gci]
+description = "Run Gci"
+run = "gci"
+
+[tasks.gofumpt]
+description = "Run Gofumpt"
+run = "gofumpt -w ."
+
+[tasks.test]
+description = "Run tests"
+run = "gotestsum"
+
+[tasks.go-build]
+description = "Build the project"
+run = "go build -v ./... -o bin/qwick-merge"
+
+[tasks.build]
+description = "Build the project"
+depends = ["go-build"]

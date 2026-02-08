@@ -24,9 +24,15 @@ profile.cov
 go.work
 go.work.sum
 
+# Dependencies
+node_modules
+
 # env file
 .env
 
 # Editor/IDE
 # .idea/
 # .vscode/
+
+bin/qwick-merge
+mise.local.toml
