@@ -93,7 +93,7 @@ run = "gotestsum"
 
 [tasks.go-build]
 description = "Build the project"
-run = "go build -v ./... -o bin/qwick-merge"
+run = "go build -v -o bin/qwick-merge ."
 
 [tasks.build]
 description = "Build the project"
